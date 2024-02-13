@@ -1,11 +1,12 @@
 import React from "react";
 import MainMenu from "../components/MainMenu";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const HelpPage = () => {
   return (
     <main>
       <MainMenu/>
-      <div>HelpPage</div>
+      <Breadcrumbs/>
     </main>
   );
 };
