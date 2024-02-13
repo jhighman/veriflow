@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 30, 64, 175; /* Primary color for foreground */
+  --background-start-rgb: 246, 249, 252; /* Light background for a subtle gradient */
+  --background-end-rgb: 237, 242, 247; /* Slightly darker to add depth */
+  --menu-item-color: 134, 239, 172; /* Secondary color for menu items */
+  --menu-item-hover: 253, 224, 71; /* Accent color for hover states */
+  --menu-bg-color: 254, 243, 199; /* Neutral color for menu background */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+/* Ensure the background extends to the entire page */
+html, body {
+  min-height: 100%;
+}
+
+/* Apply the primary color to all menu items */
+.menu .menu-item a {
+  color: rgb(var(--menu-item-color));
+}
+
+/* Change the background color of the menu to complement the primary theme */
+.menu {
+  background-color: rgb(var(--menu-bg-color));
+}
+
+/* Enhance the hover effect on menu items for better visual feedback */
+.menu .menu-item a:hover {
+  color: rgb(var(--menu-item-hover));
+  background-color: rgba(var(--foreground-rgb), 0.1); /* Slight opacity for a soft hover effect */
+}
+
+/* No need for dark mode styles if not desired */
