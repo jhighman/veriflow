@@ -12,7 +12,8 @@ const CounterSchema = new mongoose.Schema({
   }
 });
 
-const Counter = mongoose.model('Counter', CounterSchema);
+// Check if the Counter model already exists before defining it
+const Counter = mongoose.models.Counter || mongoose.model('Counter', CounterSchema);
 
 // Dates Sub-Schema
 const DatesSchema = new mongoose.Schema({
@@ -97,7 +98,7 @@ WorkItemSchema.pre('save', async function(next) {
   }
 });
 
-
-const WorkItem = mongoose.model("WorkItem", WorkItemSchema);
+// Check if the WorkItem model already exists before defining it
+const WorkItem = mongoose.models.WorkItem || mongoose.model("WorkItem", WorkItemSchema);
 
 module.exports = WorkItem;
