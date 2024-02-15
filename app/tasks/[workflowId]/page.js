@@ -1,33 +1,62 @@
-// pages/tasks/[workflowId].js
+
 'use client';
+import React, { useEffect, useState } from 'react';
+import MainMenu from '../../components/MainMenu';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import WorkItemComponent from '../../components/WorkItemComponent'; // Adjust the import path as necessary
 
-import React from "react";
-import MainMenu from "../../components/MainMenu";
-import Breadcrumbs from "../../components/Breadcrumbs";
+const GenericTaskPage = ({ params }) => {
+  const [workItem, setWorkItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-const GenericTaskPage = ({params}) => {
-     // Deconstruct `params` and attempt to convert `workflowId` to a number
-  const numericWorkflowId = +params.workflowId;
-  const isValidId = !isNaN(numericWorkflowId) && numericWorkflowId > 0;
+  useEffect(() => {
+    const fetchWorkItem = async () => {
+      try {
+        const response = await fetch(`/api/workitems?workflowId=${params.workflowId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch work item');
+        }
+        const data = await response.json();
+        setWorkItem(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!isValidId) {
-    // Render a user-friendly error message if `workflowId` is not a valid number
-    return(
-        <main>
-          <MainMenu />
-          <Breadcrumbs />
-          <div>This task does not exist or is invalid </div>
-        </main>
-        );
+    fetchWorkItem();
+  }, [params.workflowId]);
+
+  if (loading) {
+    return (
+      <main>
+        <MainMenu />
+        <Breadcrumbs />
+        <div>Loading work item details...</div>
+      </main>
+    );
   }
 
-  // Render the component if `workflowId` is valid
-  return(
-  <main>
-    <MainMenu />
-    <Breadcrumbs />
-    <div>Details about task {numericWorkflowId}</div>
-  </main>
+  if (error || !workItem) {
+    return (
+      <main>
+        <MainMenu />
+        <Breadcrumbs />
+        <div>{error || 'This task does not exist or is invalid'}</div>
+      </main>
+    );
+  }
+
+  // Render the WorkItemComponent with work item details in display mode
+  return (
+    <main>
+      <MainMenu />
+      <Breadcrumbs />
+      {/* Now using WorkItemComponent to display the work item details */}
+      <WorkItemComponent mode="display" data={workItem} />
+    </main>
   );
 };
 
